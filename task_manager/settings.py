@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'task_manager.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'hexlet',
-        'USER': 'maniac',
-        'PASSWORD': 'prometey123',
+        'NAME': '***',
+        'USER': '***',
+        'PASSWORD': '***',
         'HOST': 'localhost',
         'PORT': '',
     }
