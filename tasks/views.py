@@ -1,22 +1,12 @@
-from django.shortcuts import render
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.permissions import IsAuthenticated
-from django.contrib.auth.models import User
-from .permissions import IsOwnerProfileOrReadOnly
-from .serializers import UserProfileSerializer
+from django.contrib.auth.models import User, Group
+from rest_framework import viewsets
+from rest_framework import permissions
+from .models import Task
+from .serializers import TaskSerializer
 
 
-class UserProfileListCreateView(ListCreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserProfileSerializer
-    permission_classes = [IsAuthenticated]
+class TaskViewSet(viewsets.ModelViewSet):
 
-    def perform_create(self, serializer):
-        user = self.request.user
-        serializer.save(user=user)
-
-
-class UserProfileDetailView(RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserProfileSerializer
-    permission_classes = [IsOwnerProfileOrReadOnly, IsAuthenticated]
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [permissions.IsAuthenticated]

@@ -14,7 +14,7 @@ class Task(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
-    completion_date = models.DateField()
+    completion_date = models.DateField(null=True)
     status = models.CharField(max_length=11, choices=STATUS_CHOICES, default='NEW')
 
     # def publish(self):
