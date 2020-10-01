@@ -29,4 +29,4 @@ class TaskHistoryViewSet(viewsets.ModelViewSet):
     serializer_class = TaskHistorySerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['task', 'title']
+    filterset_fields = ['task_id', 'title']

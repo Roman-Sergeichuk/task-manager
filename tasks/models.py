@@ -19,13 +19,12 @@ class Task(models.Model):
 
     def save(self):
 
-        TaskHistory.objects.create(task=self.pk,
+        TaskHistory.objects.create(task_id=self.pk,
                                    title=self.title,
                                    description=self.description,
                                    author=self.author,
                                    status=self.status,
-                                   completion_date=self.completion_date,
-                                   date=timezone.now())
+                                   completion_date=self.completion_date)
         super(Task, self).save()
 
     # def publish(self):
@@ -37,14 +36,13 @@ class Task(models.Model):
 
 
 class TaskHistory(models.Model):
-    task = models.IntegerField()
+    task_id = models.IntegerField()
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     completion_date = models.DateField(null=True)
     status = models.CharField(max_length=11)
-    date = models.DateTimeField(null=True)
 
     class Meta:
         ordering = ['-pk']
