@@ -7,7 +7,7 @@ class Task(models.Model):
     STATUS_CHOICES = (
         ('NEW', 'new'),
         ('PLANNED', 'planned'),
-        ('IN_PROGRESS', 'in_progress'),
+        ('IN_PROGRESS', 'in progress'),
         ('COMPLETED', 'completed'),
     )
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
