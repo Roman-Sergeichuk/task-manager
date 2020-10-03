@@ -17,14 +17,14 @@ class Task(models.Model):
     completion_date = models.DateField(null=True)
     status = models.CharField(max_length=11, choices=STATUS_CHOICES, default='NEW')
 
-    def save(self):
-        TaskHistory.objects.create(task_id=self.pk,
-                                   title=self.title,
-                                   description=self.description,
-                                   author=self.author,
-                                   status=self.status,
-                                   completion_date=self.completion_date)
-        super(Task, self).save()
+    # def save(self):
+    #     TaskHistory.objects.create(task_id=self.pk,
+    #                                title=self.title,
+    #                                description=self.description,
+    #                                author=self.author,
+    #                                status=self.status,
+    #                                completion_date=self.completion_date)
+    #     super(Task, self).save()
 
     def publish(self):
         self.published_date = timezone.now()
