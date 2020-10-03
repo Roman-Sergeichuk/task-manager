@@ -5,6 +5,7 @@ from .models import Task, TaskHistory
 class TaskSerializer(serializers.ModelSerializer):
 
     author = serializers.StringRelatedField(read_only=True)
+    created_date = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Task

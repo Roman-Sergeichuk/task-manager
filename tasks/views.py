@@ -31,7 +31,7 @@ class TaskViewSet(viewsets.ModelViewSet):
 #     filterset_fields = ['status', 'completion_date']
 
 
-class TaskHistoryViewSet(viewsets.ModelViewSet):
+class TaskHistoryViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = TaskHistory.objects.all()
     serializer_class = TaskHistorySerializer
