@@ -38,3 +38,7 @@ class TaskHistoryViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthor]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['task_id', 'title']
+
+    def get_queryset(self):
+        user = self.request.user
+        return TaskHistory.objects.filter(author=user)
