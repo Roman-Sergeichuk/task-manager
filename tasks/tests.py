@@ -10,10 +10,10 @@ from .serializers import TaskSerializer
 class TaskManagerTestCase(TestCase):
 
     def setUp(self):
-        self.first_user = User.objects.create(username='first_user', password="Efwefwef1223")
+        self.default_user = User.objects.create(username='default_user', password="Efwefwef1223")
 
         self.client = APIClient()
-        self.client.force_authenticate(user=self.first_user)
+        self.client.force_authenticate(user=self.default_user)
 
     def test_can_create_task(self):
         """Пользователь может успешно создать задачу"""
@@ -70,7 +70,58 @@ class TaskManagerTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertContains(response, 'auth_token')
 
-# Пользователь может посмотреть список своих задач
+    def test_can_show_own_tasks(self):
+        """Пользователь может посмотреть список своих задач"""
+
+        first_user = User.objects.create(username='first_user', password="Efwefwef1223")
+        second_user = User.objects.create(username='second_user', password="Efwefwef1223")
+
+        Task.objects.create(
+            author=first_user,
+            title=f"Test title {timezone.now()}",
+            description='Test description',
+            completion_date="2020-10-10",
+            status="NEW"
+        )
+        Task.objects.create(
+            author=first_user,
+            title=f"Test title {timezone.now()}",
+            description='Test description',
+            completion_date="2020-10-10",
+            status="NEW"
+        )
+        Task.objects.create(
+            author=first_user,
+            title=f"Test title {timezone.now()}",
+            description='Test description',
+            completion_date="2020-10-10",
+            status="NEW"
+        )
+
+        Task.objects.create(
+            author=second_user,
+            title=f"Test title {timezone.now()}",
+            description='Test description',
+            completion_date="2020-10-10",
+            status="NEW"
+        )
+        Task.objects.create(
+            author=second_user,
+            title=f"Test title {timezone.now()}",
+            description='Test description',
+            completion_date="2020-10-10",
+            status="NEW"
+        )
+
+        new_client = APIClient()
+        new_client.force_authenticate(user=first_user)
+
+        response = new_client.get(
+            path='/tasks/',
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], 3)
+
 
 # Пользователь может редактировать задачу
 # Пользователь может посмотреть историю изменения каждой задачи
