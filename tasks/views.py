@@ -5,15 +5,23 @@ from rest_framework import generics
 from .models import Task, TaskHistory
 from .serializers import TaskSerializer, TaskHistorySerializer
 from django_filters.rest_framework import DjangoFilterBackend
+from .permissions import IsOwner
 
 
 class TaskViewSet(viewsets.ModelViewSet):
-
-    queryset = Task.objects.all()
+    queryset = Task.objects.filter()
     serializer_class = TaskSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsOwner]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['status', 'completion_date']
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(author=user)
+
+    def get_queryset(self):
+        user = self.request.user
+        return Task.objects.filter(author=user)
 
 
 # class TaskList(generics.ListAPIView):
@@ -27,6 +35,6 @@ class TaskHistoryViewSet(viewsets.ModelViewSet):
 
     queryset = TaskHistory.objects.all()
     serializer_class = TaskHistorySerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsOwner]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['task_id', 'title']

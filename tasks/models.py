@@ -18,7 +18,6 @@ class Task(models.Model):
     status = models.CharField(max_length=11, choices=STATUS_CHOICES, default='NEW')
 
     def save(self):
-
         TaskHistory.objects.create(task_id=self.pk,
                                    title=self.title,
                                    description=self.description,
@@ -27,9 +26,9 @@ class Task(models.Model):
                                    completion_date=self.completion_date)
         super(Task, self).save()
 
-    # def publish(self):
-    #     self.published_date = timezone.now()
-    #     self.save()
+    def publish(self):
+        self.published_date = timezone.now()
+        self.save()
 
     def __str__(self):
         return self.title
