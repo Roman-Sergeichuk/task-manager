@@ -11,7 +11,7 @@
 - пользователь после авторизации может создавать себе задачу, указав  для этого ее название, описание,  планируемое время завершения и статус;
 - пользователь может редактировать содержимое любой своей задачи;
 - пользователь может удалить любую из ранее созданных своих задач;
-- пользователь может вывести список задач с возможностью фильтрации по статусу и планируемой дате завершения;
+- пользователь может вывести список своих задач с возможностью фильтрации по статусу и планируемой дате завершения;
 - пользователь может прсматривать историю изменения любой своей задачи.
 
 ## Запуск приложения
@@ -33,6 +33,10 @@
 Теперь запустите сервер, выполнив команду:
 
     python manage.py runserver
+    
+Для запуска тестов используйте команду:
+
+    python manage.py test
     
 ## Пример использования приложения
 
@@ -78,7 +82,7 @@
     
     {"count":2,"next":null,"previous":null,"results":[{"id":15,"author":"postman5","created_date":"2020-10-05T12:59:29.613606+03:00","title":"Clean at home","description":"Wash the floor","completion_date":"2020-10-05","status":"PLANNED"},{"id":14,"author":"postman5","created_date":"2020-10-05T12:36:56.673953+03:00","title":"Go to the shop","description":"Buy milk and bread","completion_date":"2020-10-10","status":"NEW"}]}
 
-Отфильтруем наши задачи по статусу и дате завершения:
+Отфильтруем наши задачи по статусу:
 
     curl X GET http://127.0.0.1:8000/tasks/?status=NEW -H 'Content-Type: application/json' -H 'Authorization: Token b5ef40322180df95034ce9b41af2adae702bca39'
     
@@ -86,7 +90,7 @@
     
 Отфильтруем наши задачи по дате завершения:
 
-    curl X GET http://127.0.0.1:8000/tasks/?status=NEW&planned_date=2020-10-05 -H 'Content-Type: application/json' -H 'Authorization: Token b5ef40322180df95034ce9b41af2adae702bca39'
+    curl X GET http://127.0.0.1:8000/tasks/?planned_date=2020-10-05 -H 'Content-Type: application/json' -H 'Authorization: Token b5ef40322180df95034ce9b41af2adae702bca39'
     
     {"count":1,"next":null,"previous":null,"results":[{"id":15,"author":"postman5","created_date":"2020-10-05T12:59:29.613606+03:00","title":"Clean at home","description":"Wash the floor","completion_date":"2020-10-05","status":"PLANNED"}]}
     

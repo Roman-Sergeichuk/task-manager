@@ -163,8 +163,8 @@ class TaskManagerTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['count'], 2)
 
-    def test_can_filer_tasks(self):
-        """Пользователь может отфильтровать задачи по статусу и времени завершения"""
+    def test_can_filer_tasks_by_status(self):
+        """Пользователь может отфильтровать задачи по статусу"""
 
         test_user = User.objects.create(username='test_user', password="Efwefwef1223")
 
@@ -199,13 +199,43 @@ class TaskManagerTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['count'], 1)
 
+    def test_can_filer_tasks_by_comletion_date(self):
+        """Пользователь может отфильтровать задачи по статусу и времени завершения"""
+
+        test_user = User.objects.create(username='test_user', password="Efwefwef1223")
+
+        Task.objects.create(
+            author=test_user,
+            title=f"Test title {timezone.now()}",
+            description='Test description',
+            completion_date="2020-10-05",
+            status="NEW"
+        )
+        Task.objects.create(
+            author=test_user,
+            title=f"Test title {timezone.now()}",
+            description='Test description',
+            completion_date="2020-10-10",
+            status="IN_PROGRESS"
+        )
+        Task.objects.create(
+            author=test_user,
+            title=f"Test title {timezone.now()}",
+            description='Test description',
+            completion_date="2020-10-10",
+            status="COMPLETED"
+        )
+
+        new_client = APIClient()
+        new_client.force_authenticate(user=test_user)
+
         response = new_client.get(
             path='/tasks/?completion_date=2020-10-10',
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['count'], 2)
 
-    def test_can_show_own_tasks(self):
+    def test_unauthorized_can_not_show_tasks(self):
         """Неавторизованный пользователь не может просмотреть список задач"""
 
         auth_user = User.objects.create(username='auth_user', password="Efwefwef1223")
@@ -241,7 +271,7 @@ class TaskManagerTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_can_esist_many_users(self):
-        """ системе может существовать много пользователей"""
+        """В системе может существовать много пользователей"""
 
         first_user_data = {"username": "first_user", "password": "Wegwegewwe1242"}
         second_user_data = {"username": "second_user", "password": "Wegwegewwe1242"}
