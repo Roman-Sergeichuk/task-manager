@@ -24,6 +24,16 @@
 
     pip install -r requirements.txt
     
+## Запуск Docker-контейнера
+
+Запустите из корня проекта следующую команду:
+
+    sudo docker-compose up -d --build
+    
+Запустите миграции:
+    
+    sudo docker-compose exec web python manage.py migrate --noinput 
+    
 Приложение настроено на работу с базой данных PostgreSQL, поэтому необходимо зайти в settings.py и установить значения для своей базы данных в переменной «DATABASES».
 После этого нужно сделать и применить миграции:
 
