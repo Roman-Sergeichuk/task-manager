@@ -1,7 +1,4 @@
-from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
-from rest_framework import permissions
-from rest_framework import generics
 from .models import Task, TaskHistory
 from .serializers import TaskSerializer, TaskHistorySerializer
 from django_filters.rest_framework import DjangoFilterBackend
@@ -22,13 +19,6 @@ class TaskViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         return Task.objects.filter(author=user)
-
-
-# class TaskList(generics.ListAPIView):
-#     queryset = Task.objects.all()
-#     serializer_class = TaskSerializer
-#     filter_backends = [DjangoFilterBackend]
-#     filterset_fields = ['status', 'completion_date']
 
 
 class TaskHistoryViewSet(viewsets.ReadOnlyModelViewSet):
